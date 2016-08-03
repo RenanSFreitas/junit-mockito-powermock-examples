@@ -1,0 +1,53 @@
+/**
+ * Adds a tag with the current version into the project's git repository.
+ * Execute the 'git tag' command on the command line.
+ */
+task gitTag {
+    doLast {
+        exec {
+            workingDir './'
+            def stdout = new ByteArrayOutputStream()
+            ignoreExitValue = true;
+            commandLine 'git', 'tag', 'version/'+version
+            standardOutput = stdout;
+            println "$stdout";
+        }
+    }
+}
+
+
+/**
+ * Pushes the committed changes to the project's git repository.
+ * Execute the 'git push' command on the command line.
+ */
+task gitPush(dependsOn: 'gitTag') {
+    def stdout = new ByteArrayOutputStream()
+    doLast {
+        exec {
+            ignoreExitValue = true;
+            commandLine 'git', 'push', '--tags'
+            standardOutput = stdout;
+        }
+        println "Output:\n$stdout";
+    }
+}
+
+task snapshot(type: Copy, dependsOn: build) {
+    ext.versionPostfix = '-BUILD-SNAPSHOT-'
+    ext.currentDateFormatted = (new Date()).format('yyyyMMddHHmmss')
+
+    into BSCS_JAR
+    from(configurations.archives.artifacts.files) {
+        rename('(.*)' + version + '(.*).jar', '$1' + version + '$2' + versionPostfix +  currentDateFormatted + '.jar' )
+    }
+}
+
+task release(type: Copy, dependsOn: [build,gitPush]) {
+    ext.releasePostfix = '-RELEASE'
+    
+    into BSCS_JAR
+    from(configurations.archives.artifacts.files) {
+        rename('(.*)' + version + '(.*).jar', '$1' + version + '$2' + releasePostfix + '.jar')
+    }
+}
+

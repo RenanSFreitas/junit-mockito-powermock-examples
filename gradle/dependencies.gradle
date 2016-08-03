@@ -1,0 +1,203 @@
+ext {
+	versions = [:]
+	libraries = [:]
+}
+
+versions.batik_version="1.7"
+versions.dojo_version="1.9.1-ericsson"
+versions.SPRING_VERSION="3.1.4.RELEASE"
+versions.SPRING_SECURITY_VERSION="3.1.4.RELEASE"
+versions.xmlrpc_version="3.1"
+versions.junit_version="4.8"
+
+//SPRING
+libraries.spring_core="org.springframework:spring-core:${versions.SPRING_VERSION}"
+libraries.spring_context="org.springframework:spring-context:${versions.SPRING_VERSION}"
+libraries.spring_context_support="org.springframework:spring-context-support:${versions.SPRING_VERSION}"
+libraries.spring_jdbc="org.springframework:spring-jdbc:${versions.SPRING_VERSION}"
+libraries.spring_jms="org.springframework:spring-jms:${versions.SPRING_VERSION}"
+libraries.spring_test="org.springframework:spring-test:${versions.SPRING_VERSION}"
+libraries.spring_web="org.springframework:spring-web:${versions.SPRING_VERSION}"
+libraries.spring_webmvc="org.springframework:spring-webmvc:${versions.SPRING_VERSION}"
+libraries.spring_webmvc_struts="org.springframework:spring-struts:${versions.SPRING_VERSION}"
+libraries.spring_orm="org.springframework:spring-orm:${versions.SPRING_VERSION}"
+libraries.spring_oxm="org.springframework:spring-oxm:${versions.SPRING_VERSION}"
+
+//SRING-BATCH
+libraries.spring_batch_core='org.springframework.batch:spring-batch-core:2.1.9.RELEASE'
+
+//SPRING-LDAP
+libraries.spring_ldap=dependencies.create ("org.springframework.ldap:spring-ldap-core:1.3.2.RELEASE") { // exclude because of version conflict (1.3.1.RELEASE)
+	exclude group:'org.springframework', module:'spring-beans' 
+	exclude group:'org.springframework', module:'spring-core' 
+	exclude group:'org.springframework', module:'spring-context' 
+	exclude group:'org.springframework', module:'spring-tx' 
+	exclude group:'commons-logging', module:'commons-logging'
+}
+
+//SPRING-SECURITY
+libraries.spring_security_aspects="org.springframework.security:spring-security-aspects:${versions.SPRING_SECURITY_VERSION}"
+libraries.spring_security_acl="org.springframework.security:spring-security-acl:${versions.SPRING_SECURITY_VERSION}"
+libraries.spring_security_config="org.springframework.security:spring-security-config:${versions.SPRING_SECURITY_VERSION}"
+libraries.spring_security_core=dependencies.create ("org.springframework.security:spring-security-core:${versions.SPRING_SECURITY_VERSION}") { // exclude because of version conflict
+	exclude group:'org.springframework', module:'spring-context'
+	exclude group:'org.springframework', module:'spring-beans'
+	exclude group:'org.springframework', module:'spring-aop'
+	exclude group:'org.springframework', module:'spring-core'
+	exclude group:'org.springframework', module:'spring-expression'
+}
+libraries.spring_security_taglibs="org.springframework.security:spring-security-taglibs:${versions.SPRING_VERSION}"
+libraries.spring_security_web=dependencies.create ("org.springframework.security:spring-security-web:${versions.SPRING_VERSION}") { // depends on spring version 3.0.6
+	exclude group:'org.springframework', module:'spring-beans' 
+	exclude group:'org.springframework', module:'spring-core' 
+	exclude group:'org.springframework', module:'spring-context'
+	exclude group:'org.springframework', module:'spring-web'
+	exclude group:'org.springframework', module:'spring-tx'
+	exclude group:'org.springframework', module:'spring-expression'
+	exclude group:'org.springframework', module:'spring-jdbc'
+	exclude group:'org.springframework', module:'spring-aop'
+}
+
+//SPRING-WEBFLOW
+libraries.spring_webflow='org.springframework.webflow:spring-webflow:2.1.1.RELEASE'
+
+//SPRING-WS
+libraries.spring_ws='org.springframework.ws:spring-ws:2.0.5.RELEASE:all'
+
+
+// BATIK
+libraries.batik_anim="org.apache.xmlgraphics:batik-anim:${versions.batik_version}"
+libraries.batik_awt_util="org.apache.xmlgraphics:batik-awt-util:${versions.batik_version}"
+libraries.batik_bridge="org.apache.xmlgraphics:batik-bridge:${versions.batik_version}"
+libraries.batik_css="org.apache.xmlgraphics:batik-css:${versions.batik_version}"
+libraries.batik_dom="org.apache.xmlgraphics:batik-dom:${versions.batik_version}"
+libraries.batik_ext="org.apache.xmlgraphics:batik-ext:${versions.batik_version}"
+libraries.batik_extension="org.apache.xmlgraphics:batik-extension:${versions.batik_version}"
+libraries.batik_gvt="org.apache.xmlgraphics:batik-gvt:${versions.batik_version}"
+libraries.batik_js="org.apache.xmlgraphics:batik-js:${versions.batik_version}"
+libraries.batik_parser="org.apache.xmlgraphics:batik-parser:${versions.batik_version}"
+libraries.batik_script="org.apache.xmlgraphics:batik-script:${versions.batik_version}"
+libraries.batik_svg_dom="org.apache.xmlgraphics:batik-svg-dom:${versions.batik_version}"
+libraries.batik_svggen="org.apache.xmlgraphics:batik-svggen:${versions.batik_version}"
+libraries.batik_transcoder="org.apache.xmlgraphics:batik-transcoder:${versions.batik_version}"
+libraries.batik_util="org.apache.xmlgraphics:batik-util:${versions.batik_version}"
+libraries.batik_xml="org.apache.xmlgraphics:batik-xml:${versions.batik_version}"
+
+//XMLRPC
+libraries.xmlrpc_client=dependencies.create ("org.apache.xmlrpc:xmlrpc-client:${versions.xmlrpc_version}") { exclude group:'junit', module:'junit' }
+libraries.xmlrpc_common="org.apache.xmlrpc:xmlrpc-common:${versions.xmlrpc_version}"
+libraries.xmlrpc_server=dependencies.create ("org.apache.xmlrpc:xmlrpc-server:${versions.xmlrpc_version}") { exclude group:'commons-logging', module:'commons-logging' }
+
+//COMMONS
+libraries.commons_beanutils=dependencies.create ('commons-beanutils:commons-beanutils:1.7.0') { exclude group:'commons-logging', module:'commons-logging' } // exclude commons-logging 1.0.3
+libraries.commons_collections='commons-collections:commons-collections:3.2'
+libraries.commons_dhcp='commons-dbcp:commons-dbcp:1.4'
+libraries.commons_digester='commons-digester:commons-digester:2.1'
+libraries.commons_fileupload="commons-fileupload:commons-fileupload:1.1.1"
+libraries.commons_httpclient='commons-httpclient:commons-httpclient:3.1'
+libraries.commons_io="commons-io:commons-io:1.3.1"
+libraries.commons_lang='commons-lang:commons-lang:2.6'
+libraries.commons_logging="commons-logging:commons-logging:1.0.4"
+libraries.commons_pool='commons-pool:commons-pool:1.5.4'
+libraries.commons_validator='commons-validator:commons-validator:1.3.0'
+libraries.commons_xmlschema='org.apache.ws.commons.schema:XmlSchema:1.4.5'
+
+//TOMCAT
+libraries.tomcat_embed_core='org.apache.tomcat.embed:tomcat-embed-core:7.0.52'
+libraries.tomcat_embed_logging_juli='org.apache.tomcat.embed:tomcat-embed-logging-juli:7.0.52'
+libraries.tomcat_embed_logging_log4j='org.apache.tomcat.embed:tomcat-embed-logging-log4j:7.0.52'
+libraries.tomcat_embed_jasper='org.apache.tomcat.embed:tomcat-embed-jasper:7.0.52'
+libraries.tomcat_dbcp='org.apache.tomcat:tomcat-dbcp:7.0.52'
+libraries.tomcat_naming_resource='tomcat:naming-resources:5.5.23'
+libraries.tomcat_catalina='org.apache.tomcat:tomcat-catalina:7.0.39'
+
+// javax
+libraries.servlet_api='javax.servlet:javax.servlet-api:3.0.1'
+libraries.jsp_api=dependencies.create ('javax.servlet:jsp-api:2.0') {exclude group: 'javax.servlet', module: 'servlet-api'}
+libraries.faces_api='javax.faces:javax.faces-api:2.1'
+libraries.jaxrpc='javax.xml:jaxrpc:1.1'
+libraries.connector_api='javax.resource:connector-api:1.5'
+libraries.el_api='javax.el:el-api:2.2'
+libraries.jsf_api='javax.faces:jsf-api:1.1_02'
+libraries.jms_api='javax.jms:jms-api:1.1-rev-1'
+libraries.jta='javax.transaction:jta:1.1'
+libraries.persistence='org.eclipse.persistence:javax.persistence:2.0.0'
+libraries.mail='javax.mail:mail:1.4'
+
+// license
+libraries.lic_api='lhs.licensing:lic_api:4.1.3'
+libraries.lic_cmn='lhs.licensing:lic_cmn:4.1.3'
+libraries.lic_corba='lhs.licensing:lic_cmn_corba:4.1.3'
+
+// test
+//According to the easymock doc we need to have cglib 2.2+.
+//All unit tests work with the current version 2.1.3 though.
+//So we won't upgrade until really needed to avoid potential other side effects now.
+libraries.easymock='org.easymock:easymock:3.3.1'
+libraries.junit="junit:junit:${versions.junit_version}"
+libraries.silenium_java_client_driver='org.seleniumhq.selenium.client-drivers:selenium-java-client-driver:1.0.2'
+libraries.slf4jlog4j='org.slf4j:slf4j-log4j12:1.4.2'
+libraries.ant='org.apache.ant:ant:1.8.4'
+libraries.aspectjrt='org.aspectj:aspectjrt:1.6.5'
+libraries.aspectjtools='org.aspectj:aspectjtools:1.6.5'
+libraries.apacheds=dependencies.create (group: 'org.apache', name: 'apacheds', version: '1.0.1', ext: 'zip')
+libraries.axis='axis:axis:1.4'
+libraries.cglib='cglib:cglib-nodep:2.1_3'
+libraries.corba_internal_api='com.sun.corba:glassfish-corba-internal-api:+'
+libraries.core4j='org.core4j:core4j:0.5'
+libraries.displaytag=dependencies.create ('displaytag:displaytag:1.1.1') { exclude group:'commons-collections', module:'commons-collections' } // exclude commons-collections 3.1
+libraries.dnsjava='org.dnsjava:dnsjava:2.0.6'
+libraries.dozer='org.dozer:dozer:5.3.2'
+libraries.dom4j='dom4j:dom4j:1.6.1'
+libraries.eclipselink='org.eclipse:eclipselink:2.1.3'
+libraries.ehcache=dependencies.create ('net.sf.ehcache:ehcache:1.2.3') { exclude module: 'servlet-api' }
+libraries.fop='org.apache.xmlgraphics:fop:1.0'
+
+libraries.hibernate='org.hibernate:hibernate:3.2.6.ga'
+// JBPM 4.1 needs a higher version of hibernate-core: 3.3.1.GA instead of 3.2.6.GA.
+// 3.2.6.GA is used by JBPM 3.1, which is used for migration purposes only.
+libraries.hibernate_annotations=dependencies.create ('org.hibernate:hibernate-annotations:3.4.0.GA')
+libraries.hibernate_cglib_repack='org.hibernate:hibernate-cglib-repack:2.1_3'
+libraries.hibernate_commons_annotations='org.hibernate:hibernate-commons-annotations:3.1.0.GA'
+libraries.hibernate_core='org.hibernate:hibernate-core:3.3.1.GA'
+libraries.hibernate_entitymanager='org.hibernate:hibernate-entitymanager:3.4.0.GA'
+
+libraries.httpclient_cache='org.apache.httpcomponents:httpclient-cache:4.2.1'
+libraries.httpclient='org.apache.httpcomponents:httpclient:4.2.1'
+libraries.httpmime='org.apache.httpcomponents:httpmime:4.2.1'
+libraries.jaxen='jaxen:jaxen:1.1-beta-7'
+libraries.jbpm='org.jbpm:jbpm:4.1.34'
+libraries.jbpm_migration='org.jbpm:jbpm-migration:4.1.26'
+libraries.jbpm_old='org.jbpm:jbpm-old:3.1.1'
+libraries.jbpm_deps='org.jbpm:jbpm-deps:4.1.26'
+libraries.jetty=dependencies.create ('org.mortbay.jetty:jetty:6.1.7') {exclude group: 'org.mortbay.jetty', module: 'servlet-api-2.5'}
+libraries.jetty_util='org.mortbay.jetty:jetty-util:6.1.7'
+libraries.jersey_bundle='com.sun.jersey:jersey-bundle:1.8'
+libraries.jersey_project='com.sun.jersey:jersey-project:1.8'
+libraries.jersey_apache_client=dependencies.create ('com.sun.jersey.contribs:jersey-apache-client4:1.17.1') { exclude group: 'com.sun.jersey', module: 'jersey-client' }
+libraries.jgroups='org.jgroups:jgroups:2.11.0.GA'
+libraries.joda_time='joda-time:joda-time:1.6'
+libraries.jstl='jstl:jstl:1.1.2'
+libraries.juel='de.odysseus.juel:juel:2.1.0'
+libraries.ojdbc='com.oracle:ojdbc6:11.2.0.4'
+libraries.orai18n='com.oracle:orai18n:11.2.0.4'
+libraries.oracleAM='com.oracle.security:oamasdk:1.0'
+libraries.oracleJPS='com.oracle.security:jps-pep:11.1.2.2.0'
+libraries.odata4j=dependencies.create ('org.odata4j:odata4j:0.5') { exclude group: 'org.eclipse.persistence', module: 'eclipselink' }
+libraries.opends='org.opends:opends:2.2.0'
+libraries.openam='org.forgerock.openam:openam:9.5.5'
+libraries.proguard='proguard:proguard:4.8'
+libraries.quarz_all='org.opensymphony.quartz:quartz-all:1.6.1'
+libraries.smscsim=dependencies.create (group: 'smscsim_full', name: 'smscsim_full', version: '1.1', ext: 'tar.gz')
+libraries.smpp='com.logica:smpp:1.3'
+libraries.snmp4j='org.snmp4j:snmp4j:1.8.1'
+libraries.snmp4j_agent='org.snmp4j:snmp4j-agent:1.1.1'
+libraries.sojo='net.sf.sojo:sojo:1.0.5'
+libraries.standard='taglibs:standard:1.1.2'
+libraries.serializer='xalan:serializer:2.7.1'
+libraries.wsdl4j='wsdl4j:wsdl4j:1.6.1'
+libraries.xercesImpl='xerces:xercesImpl:2.7.1'
+libraries.xstream='com.thoughtworks.xstream:xstream:1.4'
+libraries.mysql='mysql:mysql-connector-java:5.1.32'
+libraries.wss4j='org.apache.ws.security:wss4j:1.5.12'
+libraries.asm='asm:asm:3.1'
