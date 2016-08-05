@@ -1,8 +1,11 @@
 package examples;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class TestableClass2
 {
-    private FinalClass finalClass;
+    private FinalClass finalClassInstance;
     private NonFinalClass nonFinalClass;
     private String publicKey;
 
@@ -18,17 +21,22 @@ public class TestableClass2
 
     public void setFinalClass(FinalClass finalClass)
     {
-        this.finalClass = finalClass;
+        this.finalClassInstance = finalClass;
     }
 
     public FinalClass getFinalClass()
     {
-        return finalClass;
+        return finalClassInstance;
+    }
+
+    public int sumSomeInts(int a, int b)
+    {
+        return a + b + nonFinalClass.getInt1() + nonFinalClass.getInt2() + nonFinalClass.getInt3();
     }
 
     public int sumThenSumFinalClassInteger(int a, int b)
     {
-        return a + b + finalClass.getInt();
+        return a + b + finalClassInstance.getInt();
     }
 
     public int sumThenSumNonFinalClassInteger(int a, int b)
@@ -45,9 +53,19 @@ public class TestableClass2
         return publicKey;
     }
 
+    public String getBundleString(String bundleName, String key)
+    {
+        return ResourceBundle.getBundle(bundleName, Locale.ENGLISH).getString(key);
+    }
+
     public int sumUsingLocalVariableInstance(int a, int b)
     {
         NonFinalClass localVariable = new NonFinalClass();
         return a + b + localVariable.getInt();
+    }
+
+    public double calculateAverage(double... d)
+    {
+        return finalClassInstance.calculateAverage(d);
     }
 }

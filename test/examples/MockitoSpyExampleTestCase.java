@@ -1,6 +1,7 @@
 package examples;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
@@ -39,9 +40,15 @@ public class MockitoSpyExampleTestCase
         spyList.add("one");
         spyList.add("two");
 
+        doReturn("three").when(spyList).get(2);
+
+        String three = spyList.get(2);
+
         verify(spyList).add("one");
         verify(spyList).add("two");
 
         assertEquals(2, spyList.size());
+        assertEquals("three", three);
     }
+
 }

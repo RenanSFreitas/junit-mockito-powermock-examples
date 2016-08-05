@@ -3,6 +3,7 @@ package examples;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThan;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,6 +12,7 @@ import java.util.Random;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -57,7 +59,31 @@ public class MockitoExampleTestCase
     }
     
     @Test
-    public void simpleTest()
+    public void inOrderTest()
+    {
+        TestableClass2 subject = new TestableClass2();
+
+        NonFinalClass mockedInstance = Mockito.mock(NonFinalClass.class);
+
+        subject.setNonFinalClass(mockedInstance);
+
+        when(mockedInstance.getInt1()).thenReturn(20);
+        when(mockedInstance.getInt2()).thenReturn(10);
+        when(mockedInstance.getInt3()).thenReturn(6);
+
+        int result = subject.sumSomeInts(4, 2);
+
+        InOrder inOrder = inOrder(mockedInstance);
+
+        inOrder.verify(mockedInstance).getInt1();
+        inOrder.verify(mockedInstance).getInt2();
+        inOrder.verify(mockedInstance).getInt3();
+
+        assertThat(result, equalTo(42));
+    }
+
+    @Test
+    public void consecutiveStubbingTest()
     {
         TestableClass2 subject = new TestableClass2();
 

@@ -9,9 +9,6 @@ import static org.mockito.Mockito.when;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import examples.DatabaseAccessObject;
-import examples.TestableClassThatReadsFromDatabase;
-
 public class MockitNoAnnotationsExampleTestCase
 {
     private TestableClassThatReadsFromDatabase subject;
@@ -49,6 +46,7 @@ public class MockitNoAnnotationsExampleTestCase
 
         Object result = subject.readObject();
 
+        // Local dao mock not set into subject, so this will fail
         verify(dao, times(1)).readFromDatabase();
 
         assertThat(result.toString(), equalTo(string));

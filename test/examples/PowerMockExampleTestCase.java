@@ -2,11 +2,15 @@ package examples;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,23 +21,26 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ FinalClass.class, SomeUtils.class, TestableClass2.class })
+@PrepareForTest({ SomeUtils.class, FinalClass.class, TestableClass2.class })
 public class PowerMockExampleTestCase
 {
     @InjectMocks
     private TestableClass2 subject;
 
     @Mock
-    private FinalClass finalClass;
+    private FinalClass mockedInstance;
+
+    @Mock
+    private ResourceBundle mockedBundle;
 
     @Test
     public void testSum()
     {
-        when(finalClass.getInt()).thenReturn(38);
+        when(mockedInstance.getInt()).thenReturn(38);
 
         int result = subject.sumThenSumFinalClassInteger(2, 2);
 
-        verify(finalClass).getInt();
+        verify(mockedInstance).getInt();
 
         assertThat(result, equalTo(42));
     }
@@ -56,6 +63,7 @@ public class PowerMockExampleTestCase
         assertThat(result1, equalTo(42));
     }
 
+
     @Test(expected = IllegalStateException.class)
     @SuppressWarnings("unchecked")
     public void testThatFails()
@@ -69,6 +77,35 @@ public class PowerMockExampleTestCase
         when(mockedInstance.getInt()).thenThrow(IllegalStateException.class);
 
         subject.sumThenSumFinalClassInteger(4, 2);
+    }
+
+    @Test
+    public void privateMethodStubbing() throws Exception
+    {
+        double[] dummyArray = { 1.0, 2.0, 3.0 };
+        
+        FinalClass spyInstance = PowerMockito.spy(new FinalClass());
+
+        PowerMockito.doReturn(true).when(spyInstance, "timeConsumingMethod");
+
+        TestableClass2 subject = new TestableClass2();
+        subject.setFinalClass(spyInstance);
+
+        double result = subject.calculateAverage(dummyArray);
+
+        assertThat(result, equalTo(2.0));
+    }
+
+    @Test
+    public void resourceBundleStaticMocking()
+    {
+        mockStatic(ResourceBundle.class);
+        when(ResourceBundle.getBundle(eq("bundle1"), eq(Locale.ENGLISH))).thenReturn(mockedBundle);
+        when(mockedBundle.getString(eq("key1"))).thenReturn("value1");
+
+        String bundleString = subject.getBundleString("bundle1", "key1");
+
+        assertThat(bundleString, equalTo("value1"));
     }
 
     @Test
